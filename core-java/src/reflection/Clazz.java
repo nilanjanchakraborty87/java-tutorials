@@ -1,9 +1,9 @@
 package reflection;
 
-import java.io.Serializable;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.TypeVariable;
 
-public class Clazz {
+public class Clazz extends SuperClazz implements SampleInterface{
 
     private String description = "A class to explain java reflection";
 
@@ -54,5 +54,21 @@ public class Clazz {
             System.err.println("Failed to instantiate the Clazz instance. Reason : [" + e.getMessage() + "]");
         }
 
+        //get all superclasses
+        Class superClass = clazz.getSuperclass();
+        while(superClass != null){
+            System.out.println("Super class name: " + superClass.getName());
+            Class subClass = superClass;
+            superClass = subClass.getSuperclass();
+        }
+
+        Class[] interfaces =  clazz.getInterfaces();
+        for (Class _i: interfaces) {
+            System.out.println("Interface name: " + _i.getName());
+            TypeVariable[] types = _i.getTypeParameters();
+            for (TypeVariable tv: types) {
+                System.out.println("Name: [" + tv.getName() + ", type: " + tv.getTypeName() +"]");
+            }
+        }
     }
 }
